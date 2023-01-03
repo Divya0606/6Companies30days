@@ -1,0 +1,34 @@
+class Solution {
+    vector<vector<int>>ansArr;
+public:
+     int sum(vector<int>& comb){
+        int ans = 0;
+        for(auto x: comb){
+            ans += x;
+        }
+        return ans;
+    }
+    
+    void combinationHelper(int k, int n, vector<int>& comb, int num){
+        
+        if(k == 0){
+            if(sum(comb) == n ){
+                ansArr.push_back(comb);
+            }
+            return;
+        }
+        
+        if(num > 9) return;
+        
+        comb.push_back(num);  // Including num in combination
+        combinationHelper(k - 1, n, comb, num + 1);
+        comb.pop_back(); // Not including num in combination
+        combinationHelper(k, n, comb, num + 1);    
+        
+    }
+    vector<vector<int>> combinationSum3(int k, int n) {
+        vector<int> comb;
+        combinationHelper(k, n, comb, 1);
+        return ansArr;
+    }
+};
