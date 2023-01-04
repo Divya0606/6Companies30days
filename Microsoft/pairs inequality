@@ -1,0 +1,52 @@
+class Solution {
+public:
+ long long int count;
+   
+    void checkCount(vector<int>& n, int start, int mid, int end,int d)
+    {
+
+        
+        int l = start, r = mid + 1;
+        while(l <= mid && r <= end)
+        {
+            if(n[l]<=(n[r]+d))
+            {
+                count += (end - r+1);
+                l++;
+            }
+            else    
+            {
+                r++;
+            }
+        }
+         
+        sort(n.begin() + start, n.begin() + end + 1);  
+        return;
+         
+    }
+    void mergeSort(vector<int>& n, int start, int end,int d)
+    {
+        if(start == end) 
+            return;
+        
+        int mid = (start + end)/2;
+        mergeSort(n,start, mid,d);
+        mergeSort(n,mid+1,end,d);
+        
+        checkCount(n,start,mid,end,d);
+        return;
+        
+    }
+    long long numberOfPairs(vector<int>& nums1, vector<int>& nums2, int diff) {
+        count = 0;
+        int n = nums1.size();
+        vector<int>c(n);  
+        
+        for(int i=0;i<n;i++)
+        c[i]=nums1[i]-nums2[i];               
+			
+        mergeSort(c,0,n-1,diff);
+		
+        return count;
+    }
+};
