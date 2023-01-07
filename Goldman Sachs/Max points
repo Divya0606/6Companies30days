@@ -1,26 +1,66 @@
 class Solution {
 public:
-    bool validSquare(vector<int>& p1, vector<int>& p2, vector<int>& p3, vector<int>& p4) {
-        vector<vector<int>> points = {p1, p2, p3, p4};
+    int maxPoints(vector<vector<int>>& points) {
+        int n = points.size();
         
-        unordered_map<int, int> cnt;
+        int maxi = INT_MIN;
         
-        int side = INT_MAX;
         
-        for (int i = 0; i < 4; i++) {
-            for (int j = i + 1; j < 4; j++) {
-                int x = points[i][0] - points[j][0]; 
-                int y = points[i][1] - points[j][1];
+        
+        for(int i = 0; i < n; i++)
+        {
             
-                int var = x * x + y * y; 
+            
+            unordered_map<double, int> m;
+            
+            int temp_max = 0;
+            
+            int x1 = points[i][0];
+            
+            int y1 = points[i][1];
+            
+            for(int j = 0; j < n; j++)
+            {
+                if(j == i)
+                {
+                    continue;
+                }
                 
-                side = min (side, var);
+                int x2 = points[j][0];
                 
-                cnt[var]++;
+                int y2 = points[j][1];
+                
+                double nume = y2 - y1;
+                
+                double deno = x2 - x1;
+                
+                
+                
+                if(deno == 0)
+                {
+                    m[INT_MAX]++;
+                    
+                
+                    
+                    temp_max = max(temp_max, m[INT_MAX]);
+                    
+                    continue;
+                }
+                
+               
+                
+                double slope = nume / deno;
+                
+                m[slope]++;
+                
+                temp_max = max(temp_max, m[slope]);
             }
+            
+           
+            
+            maxi = max(maxi, temp_max + 1);
         }
         
-        return cnt[side] == 4 && cnt[2 * side] == 2; 
-        
+        return maxi;
     }
 };
