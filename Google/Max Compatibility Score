@@ -1,0 +1,53 @@
+class Solution {
+public:
+    int ans=INT_MIN;
+     void fun(int idx,vector<vector<int>>&student,vector<vector<int>>&mentor,int &n,vector<bool>&vis,int currscore)
+    {
+        
+        if(idx >= n)
+        {
+            if(currscore > ans)
+            {
+                ans=currscore;
+            }
+            return;
+        }
+       
+        for(int i=0;i<n;i++)
+        {
+            if(vis[i]==true)
+            {
+                continue;
+            }
+            else if(vis[i]==false)  
+            {
+                vis[i]=true;  
+                int temp = match(student[idx],mentor[i]);       	        		
+                fun(idx+1,student,mentor,n,vis,currscore+temp);
+                vis[i]=false; 
+            }
+        }
+    }
+    int match(vector<int>&student,vector<int>&mentor)
+    {
+        int n=student.size();
+        int count=0;
+
+        for(int i=0;i<n;i++)
+        {
+            if(student[i]==mentor[i])
+            {
+                count++;
+            }
+        }
+        return count;
+    }
+    int maxCompatibilitySum(vector<vector<int>>& students, vector<vector<int>>& mentors) {
+        int idx=0;
+        int n=students.size();
+        vector<bool>vis(n,false);
+        int currscore=0;
+        fun(idx,students,mentors,n,vis,currscore);
+        return ans;
+    }
+};
